@@ -1,0 +1,83 @@
+/* Reset default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body styling */
+body {
+  background-color: #f2f2f2;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 50px 20px;
+  min-height: 100vh;
+}
+
+/* Title */
+h1 {
+  font-size: 32px;
+  color: #2e7d32;
+  margin-bottom: 30px;
+}
+
+/* Input field and dropdown */
+input[type="text"],
+select {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+input[type="text"]:focus,
+select:focus {
+  border-color: #2e7d32;
+}
+
+/* Download button */
+button {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  max-width: 500px;
+}
+
+button:hover {
+  background-color: #1b5e20;
+}
+
+/* Message */
+#message {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #555;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  input, select, button {
+    font-size: 15px;
+  }
+}
