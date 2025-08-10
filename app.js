@@ -1,41 +1,41 @@
-document.getElementById("downloadBtn").addEventListener("click", () => {
-  const url = document.getElementById("urlInput").value;
-  const quality = document.getElementById("qualitySelect").value;
-  const message = document.getElementById("message");
-  const linkBox = document.getElementById("linkBox");
+document.getElementById("downloadBtn").addEventListener("click", async () => {
+    const videoUrl = document.getElementById("videoUrl").value.trim();
 
-  message.textContent = "";
-  linkBox.innerHTML = "";
+    if (!videoUrl) {
+        alert("⚠️ Shyiramo YouTube link mbere yo gukanda Download.");
+        return;
+    }
 
-  if (!url) {
-    message.textContent = "⚠️ Please enter a YouTube URL.";
-    return;
-  }
+    try {
+        const response = await fetch("http://localhost:5000/download", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ url: videoUrl })
+        });
 
-  message.textContent = "⏳ Getting download link...";
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(`Server error (${response.status}): ${errText}`);
+        }
 
-  fetch('/download', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ url, quality })
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.download_url) {
-        message.textContent = "✅ Download link ready:";
-        const a = document.createElement("a");
-        a.href = data.download_url;
-        a.textContent = `⬇️ Download: ${data.title || "Click here"}`;
-        a.target = "_blank";
-        linkBox.appendChild(a);
-      } else {
-        message.textContent = "⚠️ Error: " + (data.error || "Unknown error.");
-      }
-    })
-    .catch(error => {
-      console.error(error);
-      message.textContent = "⚠️ Error: Failed to fetch.";
-    });
+        const data = await response.json();
+
+        if (data.error) {
+            alert(`⚠️ Error: ${data.error}`);
+            return;
+        }
+
+        // Show download link
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+            <p><strong>${data.title}</strong></p>
+            <a href="${data.url}" target="_blank">⬇️ Download Video</a>
+        `;
+
+    } catch (error) {
+        console.error("❌ Failed to fetch:", error);
+        alert("❌ Failed to fetch: " + error.message);
+    }
 });
